@@ -30,7 +30,8 @@ extern t_config cfg;
 
 // Functions prototypes
 LRESULT CALLBACK	WinProc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam);
-void CALLBACK		f(HWND hwnd, UINT uMsg, UINT timerId, DWORD dwTime);
+void CALLBACK		FrameBuff(HWND hwnd, UINT uMsg, UINT timerId, DWORD dwTime);
+LRESULT CALLBACK	WinProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 void				InitConfig(t_config *cfg);
 
 

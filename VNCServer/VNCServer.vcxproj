@@ -11,8 +11,10 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="FrameBuff.c" />
     <ClCompile Include="InitConfig.c" />
     <ClCompile Include="VNCServer.c" />
+    <ClCompile Include="WinProc.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="VNCServer.h" />

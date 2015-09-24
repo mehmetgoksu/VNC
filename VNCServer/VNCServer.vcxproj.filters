@@ -21,6 +21,12 @@
     <ClCompile Include="InitConfig.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="FrameBuff.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="WinProc.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="VNCServer.h">
