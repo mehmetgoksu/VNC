@@ -11,6 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="InitConfig.c" />
     <ClCompile Include="VNCServer.c" />
   </ItemGroup>
   <ItemGroup>

@@ -18,6 +18,9 @@
     <ClCompile Include="VNCServer.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="InitConfig.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="VNCServer.h">

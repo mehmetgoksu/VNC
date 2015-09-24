@@ -1,15 +1,4 @@
-#include <winsock2.h>
-#include <windows.h>
-#include "SocketTools.h"
-#include "BMPTools.h"
 #include "VNCServer.h"
-#include "Win32Tools.h"
-#include "CompressionTools.h"
-
-/* TODO: Only one static variable is allowed. Do structure :D */
-
-static SOCKET Socket = 0;
-static SOCKET ClientSocket = 0; /* Bonus: Multiple client */
 
 void CALLBACK f(HWND hwnd, UINT uMsg, UINT timerId, DWORD dwTime)
 {
@@ -31,8 +20,8 @@ void CALLBACK f(HWND hwnd, UINT uMsg, UINT timerId, DWORD dwTime)
 		Step 1) We send the compressed bitmap size
 		Step 2) We send the compressed bitmap 
 	*/
-	WriteInt32ToSocket(ClientSocket, (int)compressedLen);
-	WriteBytesToSocket(ClientSocket, compressed, compressedLen);
+	WriteInt32ToSocket(cfg.ClientSocket, (int)compressedLen);
+	WriteBytesToSocket(cfg.ClientSocket, compressed, compressedLen);
 	free(compressed);
 }
 
@@ -42,8 +31,10 @@ int WINAPI			WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR lpCmdLine, int 
 	HWND			hWnd;
 	MSG				msg;
 
+	// eliminate compiler warning when a var / reference will never be used
 	UNREFERENCED_PARAMETER(hPrevInst);
 	UNREFERENCED_PARAMETER(lpCmdLine);
+	initConfig(&cfg); // cfg is a global struct
 	SecureZeroMemory(&msg, sizeof(msg));
 	SecureZeroMemory(&wClass, sizeof(wClass));
 	wClass.cbSize = sizeof(wClass);
@@ -80,7 +71,7 @@ LRESULT CALLBACK WinProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 	{
 		case WM_CREATE:
 			{
-				Socket = CreateServerSocketWithAsyncReading(VNC_PORT, hWnd, WM_SOCKET);
+				cfg.Socket = CreateServerSocketWithAsyncReading(VNC_PORT, hWnd, WM_SOCKET);
 			}
 			break;
 		case WM_COMMAND:
@@ -93,9 +84,9 @@ LRESULT CALLBACK WinProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 		case WM_DESTROY:
 			{
 				PostQuitMessage(0);
-				if (ClientSocket != 0)
-					closesocket(ClientSocket);
-				CloseSocketAndCleanup(Socket);
+				if (cfg.ClientSocket != 0)
+					closesocket(cfg.ClientSocket);
+				CloseSocketAndCleanup(cfg.Socket);
 				return (0);
 			}
 			break;
@@ -103,11 +94,11 @@ LRESULT CALLBACK WinProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 			{
 				if (WSAGETSELECTERROR(lParam))
 				{	
-					if (ClientSocket != 0)
+					if (cfg.ClientSocket != 0)
 					{
 						KillTimer(hWnd, TIMER_ID);
-						closesocket(ClientSocket);
-						ClientSocket = 0;
+						closesocket(cfg.ClientSocket);
+						cfg.ClientSocket = 0;
 					}
 					break;
 				}
@@ -128,7 +119,7 @@ LRESULT CALLBACK WinProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 						break;
 					case FD_ACCEPT:
 						{
-							ClientSocket = AcceptClientConnection((SOCKET)wParam);
+							cfg.ClientSocket = AcceptClientConnection((SOCKET)wParam);
 							SetTimer(hWnd, TIMER_ID, TIMER_INTERVAL_MS,(TIMERPROC) &f);
 						}
 						break;
