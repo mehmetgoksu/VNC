@@ -33,6 +33,7 @@ LRESULT CALLBACK	WinProc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam);
 void CALLBACK		FrameBuff(HWND hwnd, UINT uMsg, UINT timerId, DWORD dwTime);
 LRESULT CALLBACK	WinProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 void				InitConfig(t_config *cfg);
-
+HWND				InitHWnd(WNDCLASSEX wClass, HINSTANCE hInst);
+void				InitWinClass(WNDCLASSEX *wClass, HINSTANCE hInst, HWND hWnd, MSG msg);
 
 #endif

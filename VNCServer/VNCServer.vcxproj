@@ -13,6 +13,8 @@
   <ItemGroup>
     <ClCompile Include="FrameBuff.c" />
     <ClCompile Include="InitConfig.c" />
+    <ClCompile Include="InitHWnd.c" />
+    <ClCompile Include="InitWindowClass.c" />
     <ClCompile Include="VNCServer.c" />
     <ClCompile Include="WinProc.c" />
   </ItemGroup>
